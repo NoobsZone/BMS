@@ -15,8 +15,12 @@ const ProductSchema= new mongoose.Schema({
         type:String,
         required: [true, 'must provide brand name']
     },
-    // price,
-    // images,
+    price:{
+
+    },
+    images:{
+        
+    },
 
 
 
