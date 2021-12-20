@@ -9,9 +9,12 @@ const getAllProducts = asyncWrapper(async (req, res) => {
   res.status(200).json({ allProducts });
 });
 //create new Product
-const createProduct = asyncWrapper(async (req, res) => {
-  const product = await Product.create(req.body);
-  res.status(201).json({ product });
+const createProduct = asyncWrapper(async (req, res, next) => {
+  let product = new Product({
+    
+  })
+  // const product = await Product.create(req.body);
+  // res.status(201).json({ product });
 });
 // get specific Product
 const getProduct = asyncWrapper(async (req, res, next) => {
