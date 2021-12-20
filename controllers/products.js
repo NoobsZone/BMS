@@ -32,6 +32,15 @@ const createProduct = asyncWrapper(async (req, res, next) => {
   //     path=path+files.path + ','
   //   })
   // }
+
+  if(req.files){
+    let path = '';
+    req.files.forEach(function(files,index,arr){
+      path=path+files.path + ','
+    })
+    path = path.substring(0, path.lastIndexOf(","))
+    product.images= path;
+  }
   product.save()
   .then(response =>{
     res.json({
