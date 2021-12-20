@@ -1,6 +1,6 @@
 const Product = require("../models/Product");
 const asyncWrapper = require("../middleware/async");
-// const {createCustomError}= require('../middleware/error-handler');
+const {createCustomError}= require('../middleware/error-handler');
 
 // get All Products
 
@@ -16,7 +16,7 @@ const createProduct = asyncWrapper(async (req, res) => {
 // get specific Product
 const getProduct = asyncWrapper(async (req, res, next) => {
   const { id: productID } = req.params;
-  const product = await Product.findOne({ _id: productID });
+  const product = await Product.findById({ _id: productID });
   if (!product) {
     return next(createCustomError(`No Product with id : ${productID}`, 404));
   }
