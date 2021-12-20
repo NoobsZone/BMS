@@ -1,6 +1,7 @@
 const Product = require("../models/Product");
 const asyncWrapper = require("../middleware/async");
 const {createCustomError}= require('../middleware/error-handler');
+// const { response } = require("express");
 
 // get All Products
 
@@ -11,7 +12,24 @@ const getAllProducts = asyncWrapper(async (req, res) => {
 //create new Product
 const createProduct = asyncWrapper(async (req, res, next) => {
   let product = new Product({
-    
+    productName:req.body.productName,
+    category:req.body.category,
+    brandName:req.body.brandName,
+    price:req.body.price,
+  })
+  if(req.file){
+    product.images=req.file.path
+  }
+  product.save()
+  .then(response =>{
+    res.json({
+      message:'Employee Added Successfully!'
+    })
+  })
+  .catch(error =>{
+    res.json({ 
+      message:'An error occurred!'
+    })
   })
   // const product = await Product.create(req.body);
   // res.status(201).json({ product });
