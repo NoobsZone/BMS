@@ -19,6 +19,7 @@ app.use('/api/v1/products', products);
 
 app.use(notFound);
 app.use(errorHandlerMiddleware);
+app.use('/uploads', express.static('uploads'));
 const port = process.env.PORT || 5000;
 
 const start = async () => {

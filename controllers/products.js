@@ -9,7 +9,9 @@ const getAllProducts = asyncWrapper(async (req, res) => {
   const allProducts = await Product.find();
   res.status(200).json({ allProducts });
 });
+
 //create new Product
+
 const createProduct = asyncWrapper(async (req, res, next) => {
   let product = new Product({
     productName:req.body.productName,
@@ -17,9 +19,19 @@ const createProduct = asyncWrapper(async (req, res, next) => {
     brandName:req.body.brandName,
     price:req.body.price,
   })
+
+  //Single File
+
   if(req.file){
     product.images=req.file.path
   }
+
+  // if(req.files){
+  //   let path = '',
+  //   req.files.forEach(function(files,index,arr){
+  //     path=path+files.path + ','
+  //   })
+  // }
   product.save()
   .then(response =>{
     res.json({
@@ -43,7 +55,9 @@ const getProduct = asyncWrapper(async (req, res, next) => {
   }
   res.status(200).json({ product });
 });
+
 //delete product
+
 const deleteProduct = asyncWrapper(async (req, res, next) => {
     const { id: productID } = req.params;
     const product = await Product.findOneAndDelete({ _id: productID });
@@ -54,6 +68,7 @@ const deleteProduct = asyncWrapper(async (req, res, next) => {
 });
 
 //update product
+
 const updateProduct = asyncWrapper (async (req, res, next) => {
     const { id: productID } = req.params;
     const product = await Product.findOneAndUpdate({_id: productID},req.body,{
@@ -65,6 +80,8 @@ const updateProduct = asyncWrapper (async (req, res, next) => {
     }
     res.status(200).json(product);
 });
+
+
 module.exports = {
   getAllProducts,
   createProduct,
