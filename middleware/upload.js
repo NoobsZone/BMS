@@ -12,6 +12,7 @@ var storage = multer.diskStorage({
 })
 
 exports.upload = multer({
+    
     storage:storage,
     fileFilter:function(req,file,callback){
         if(
