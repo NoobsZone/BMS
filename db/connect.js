@@ -8,5 +8,8 @@ const connectDB = (url) => {
     useUnifiedTopology: true,
   })
 }
+mongoose.connection.once('open', () =>{
+  console.log('Connected to MongoDB');
+})
 
 module.exports = connectDB

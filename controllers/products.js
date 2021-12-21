@@ -25,13 +25,7 @@ const createProduct = asyncWrapper(async (req, res, next) => {
   if(req.file){
     product.images=req.file.path
   }
-
-  // if(req.files){
-  //   let path = '',
-  //   req.files.forEach(function(files,index,arr){
-  //     path=path+files.path + ','
-  //   })
-  // }
+//Multiple Files
 
   if(req.files){
     let path = '';
@@ -44,7 +38,7 @@ const createProduct = asyncWrapper(async (req, res, next) => {
   product.save()
   .then(response =>{
     res.json({
-      message:'Employee Added Successfully!'
+      message:'Product Created Successfully!'
     })
   })
   .catch(error =>{
