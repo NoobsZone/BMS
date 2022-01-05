@@ -1,7 +1,7 @@
 const Product = require("../models/Product");
 const asyncWrapper = require("../middleware/async");
 const {createCustomError}= require('../middleware/error-handler');
-// const { response } = require("express");
+const { response } = require("express");
 
 // get All Products
 
@@ -35,7 +35,7 @@ const createProduct = asyncWrapper(async (req, res, next) => {
     path = path.substring(0, path.lastIndexOf(","))
     product.images= path;
   }
-  product.save()
+  await product.save()
   .then(response =>{
     res.json({
       message:'Product Created Successfully!'
