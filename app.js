@@ -1,10 +1,13 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
+app.use(bodyParser.json());
 
 //Import Routes
 // const tasks = require('./routes/tasks');
 const products = require('./routes/products');
 const categories = require('./routes/category');
+const subcategories = require('./routes/subcategory');
 // const users= require('./routes/userRouter');
 
 
@@ -31,6 +34,7 @@ app.use(cors())
 app.use('/api/v1/products', products);
 // app.use('/api/v1/users',users);
 app.use('/api/v1/categories', categories);
+app.use('/api/v1/subcategories', subcategories);
 
 
 
@@ -42,10 +46,11 @@ const port = process.env.PORT;
 
 const start = async () => {
   try {
-    await connectDB(process.env.MONGO_URI);
+    
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
+    await connectDB(process.env.MONGO_URI);
   } catch (error) {
     console.log(error);
   }

@@ -4,7 +4,8 @@ const CategorySchema = new mongoose.Schema({
     categoryName:{
         type:String,
         required: [true, 'Must Provide Category Name'],
-        trim: true
+        trim: true,
+        unique: true
     }
 })
 
