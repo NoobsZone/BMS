@@ -35,7 +35,7 @@ const createProduct = asyncWrapper(async (req, res, next) => {
     path = path.substring(0, path.lastIndexOf(","))
     product.images= path;
   }
-  await product.save()
+  product.save()
   .then(response =>{
     res.json({
       message:'Product Created Successfully!'

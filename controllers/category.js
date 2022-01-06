@@ -3,53 +3,83 @@ const asyncWrapper = require("../middleware/async");
 const { createCustomError } = require("../middleware/error-handler");
 const { response } = require("express");
 
-//get all category
+// get All Products
 
 const getAllCategory = asyncWrapper(async (req, res) => {
-  const allCategory = await Category.find();
-  res.status(200).json({
-    allCategory
-  });
+  try {
+    const data = await Category.find();
+    res.status(200).json({ data });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-// const createCategory = asyncWrapper(async (req, res, next) => {
-//   const cat = new Category({
-//     categoryName: req.body.categoryName,
-//   });
-//   await cat.save((err, data) => {
-//     res.status(200).json({
-//       code: 200,
-//       message: "Category Created Successfully!",
-//       addCategory: data,
-//     });
-//   });
-//   // const product = await Product.create(req.body);
-//   // res.status(201).json({ product });
-// });
-const createCategory = asyncWrapper(async(req,res) => {
-    const category = new Category({
-        categoryName: req.body.categoryName
-    })
-    await category.save()
-    .then(response =>{
-        res.json({
-            message: 'Category Created Successfully!'
-        })
-    })
-    .catch(error =>{
-        res.json({
-            message: 'An error occurred!'
-        })
-    })
-})
+//create new Product
 
-// const createCategory = asyncWrapper(async(req,res,next) => {
-//     const cat = await Category.create(req.body);
-//     res.status(200).json({cat});
-// })
+const createCategory = asyncWrapper(async (req, res, next) => {
+  let category = new Category({
+    name: req.body.name,
+    details: req.body.details,
+  });
+  console.log(req.body);
+  category
+    .save()
+    .then((response) => {
+      res.json({
+        message: "Category Created Successfully!",
+      });
+    })
+    .catch((error) => {
+      res.json({
+        message: "An error occurred!",
+      });
+    });
+  // const product = await Product.create(req.body);
+  // res.status(201).json({ product });
+});
+// get specific Product
+const getCategory = asyncWrapper(async (req, res, next) => {
+  const { id: categoryID } = req.params;
+  const category = await Category.findById({ _id: categoryID });
+  if (!category) {
+    return next(createCustomError(`No Category with id : ${categoryID}`, 404));
+  }
+  res.status(200).json({ category });
+});
 
+//delete product
+
+const deleteCategory = asyncWrapper(async (req, res, next) => {
+  const { id: categoryID } = req.params;
+  const category = await Category.findOneAndDelete({ _id: categoryID });
+  if (!category) {
+    return next(createCustomError(`No Category with id : ${categoryID}`, 404));
+  }
+  res.status(200).json(category);
+});
+
+// //update Category
+
+const updateCategory = asyncWrapper(async (req, res, next) => {
+  const { id: categoryID } = req.params;
+  const category = await Category.findOneAndUpdate(
+    { _id: categoryID },
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  if (!category) {
+    return next(createCustomError(`No Category with id : ${categoryID}`, 404));
+  }
+  res.status(200).json(category);
+});
 
 module.exports = {
   getAllCategory,
   createCategory,
+  getCategory,
+  updateCategory,
+  deleteCategory,
 };

@@ -1,12 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const {
-    getAllCategory,
-    createCategory
-}= require('../controllers/category')
+  getAllCategory,
+  createCategory,
+  getCategory,
+  updateCategory,
+  deleteCategory
+} = require("../controllers/category");
 
-router.route('/')
+router.route("/")
       .get(getAllCategory)
-      .post(createCategory)
-
+      .post(createCategory); //Multiple File
+// .post(upload.upload.single('images'),createProduct) //Single File
+router.route("/:id")
+      .get(getCategory)
+      .patch(updateCategory)
+      .delete(deleteCategory);
 module.exports = router;
